@@ -1,0 +1,24 @@
+body {
+  background: url('../img/pigbg.png') top left repeat;
+  height: 100%;
+  text-align: center;
+  color: #fff;
+  text-shadow:
+   -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+     1px 1px 0 #000;
+}
+
+#roll, #endTurn, #playerDisplayerParent, #gameUI {
+  display: none;
+}
+
+#img-max {
+  max-width: 80%;
+  border: 4px solid #fff;
+  border-radius: 6px;
+}
+#namesBtn {
+  margin-top: 15px;
+}
