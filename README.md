@@ -19,7 +19,7 @@ _{This is a detailed description of your application. Its purpose and usage. Giv
 _{Leave nothing to chance! You want it to be easy for potential users, employers and collaborators to run your app. Do I need to run a server? How should I set up my databases? Is there other code this app depends on?}_
 
 ## Specs
- 
+
 * Ability to choose 1-6 randomly (OK)
 
 * Store number total as round score (OK)
@@ -51,9 +51,11 @@ _{Leave nothing to chance! You want it to be easy for potential users, employers
 
 * Instantiate 2 players (OK)
 
-* Prototype to reset roundScore
+* Prototype to display names (OK)
 
 * Prototype to edit gameScore
+
+* Prototype to reset roundScore
 
 * Update win condition to use objects
 

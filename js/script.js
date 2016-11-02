@@ -9,30 +9,40 @@ Player.prototype.roundScoreReset = function() {
   return this.roundScore;
 };
 
+Player.prototype.gameScoreReset = function() {
+  this.gameScore = 0;
+  return this.gameScore;
+}
+
 Player.prototype.getGameScore = function() {
   return this.gameScore;
 }
 
+Player.prototype.somethingGame = function(currentScore) {
+  this.gameScore += currentScore
+}
+
 Player.prototype.getRoundScore = function() {
-  return this.roundscore;
+  return this.roundScore;
+}
+
+Player.prototype.editRoundScore = function(roundScoreTotal) {
+  return this.roundScore += roundScoreTotal;
 }
 
 Player.prototype.getName = function() {
   return this.playerName;
 }
 
-// Constructor to create this:
-// player 1 = {
-// scoreRound: 34,
-// scoreGame : 78
-//};
-
+var currentScore = 0;
 var player1Name;
 var player2Name;
 var roundScore = 0;
 var aRollTotal = 0;
 var bRollTotal = 0;
+var rollAction;
 var i = 2;
+
 var diceRoll = function () {
     var x = Math.floor((Math.random() * 6) + 1);
     return x;
@@ -42,30 +52,30 @@ var playerTurns = function() {
 	if (i % 2 === 0) {
 			$("#turnOver").text("");
 			$("#roll-display").html("");
-			aRollTotal += roundScore;
-			$("#playera-display").text(aRollTotal);
-			$("#playerb-display").text(bRollTotal);
-			console.log(aRollTotal + "A");
+      var player1Round = player1.editRoundScore(roundScore);
+      player1.somethingGame(player1Round);
+			$("#playera-display").text(player1.getGameScore());
+
 
 	} else if (i % 2 === 1) {
 			 $("#turnOver").text("");
 			 $("#roll-display").html("");
-			 bRollTotal += roundScore;
-			 $("#playerb-display").text(bRollTotal);
-			 console.log(bRollTotal + "B");
+       var player2Round = player2.editRoundScore(roundScore);
+       player2.somethingGame(player2Round);
+			 $("#playerb-display").text(player2.getGameScore());
 	 }
 }
 var playerDisplayer = function() {
 	if (i % 2 === 0) {
 
 			$("#playerDisplayerParent").show();
-			$("#playerDisplayer").text("Player B");
+			$("#playerDisplayer").text(player2.getName());
 
 
 	} else if (i % 2 === 1) {
 
 			 $("#playerDisplayerParent").show();
-			 $("#playerDisplayer").text("Player A");
+			 $("#playerDisplayer").text(player1.getName());
 
 	 }
 }
@@ -92,28 +102,34 @@ var playerDisplayer = function() {
 			$("#roll").click(function(event) {
 				$("#endTurn").show();
 				$("#turnOver").text("");
-				var rollAction = diceRoll();
+				rollAction = diceRoll();
 
 				$("#roll-display").text(rollAction);
 
-				roundScore = roundScore + rollAction;
-
 				if (rollAction === 1) {
-					roundScore = 0;
+          player1.roundScoreReset();
+          player2.roundScoreReset();
+          rollAction = 0;
 					$("#turnOver").text("Your turn is over");
 					$("#endTurn").hide();
 					playerDisplayer();
 					i++;
 				}
-				$("#roundTotal").text(roundScore);
 
-				$("#playerb-display").text(bRollTotal);
+        if (i % 2 === 0) {
+          player1.editRoundScore(rollAction);
+          $("#roundTotal").text(player1.getRoundScore());
+        } else if (i % 2 === 1) {
+          player2.editRoundScore(rollAction);
+          $("#roundTotal").text(player2.getRoundScore());
+        }
+
 				event.preventDefault();
 			});
 
 			$("#startGame").click(function() {
 				$("#playerDisplayerParent").show();
- 			 	$("#playerDisplayer").text("Player A");
+ 			 	$("#playerDisplayer").text(player1.getName());
 				$("#startGame").hide();
 				$("#endTurn").show();
 				$("#roll").show();
@@ -126,20 +142,23 @@ var playerDisplayer = function() {
 				playerTurns();
 				playerDisplayer();
 				i++;
-				roundScore = 0;
+
+        player1.roundScoreReset();
+        player2.roundScoreReset();
 
 
-				if (aRollTotal >= 100 || bRollTotal >= 100){
+				if (player1.getGameScore() >= 100 || player2.getGameScore() >= 100){
 					$("#turnOver").text("GAME OVER");
 					$("#playera-display").text("0");
 					$("#playerb-display").text("0");
 					$("#roundTotal").text("0");
+          $("#playerDisplayer").hide();
 					$("#startGame").show();
 					$("#endTurn").hide();
 					$("#roll").hide();
 					i = 2;
-					aRollTotal = 0;
-					bRollTotal = 0;
+          player1.gameScoreReset();
+          player2.gameScoreReset();
 				}
 			});
 
