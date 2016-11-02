@@ -152,7 +152,7 @@ var playerDisplayer = function() {
 					$("#playera-display").text("0");
 					$("#playerb-display").text("0");
 					$("#roundTotal").text("0");
-          $("#playerDisplayer").hide();
+          $("#playerDisplayerParent").hide();
 					$("#startGame").show();
 					$("#endTurn").hide();
 					$("#roll").hide();
